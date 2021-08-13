@@ -3,34 +3,37 @@ package service;
 import client.HttpClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import config.ServiceConfig;
 import consts.EndPoints;
 import entity.Author;
-import io.restassured.RestAssured;
+import entity.ListOptions;
 import org.apache.log4j.Logger;
-import static org.hamcrest.Matchers.*;
+import response.BaseResponse;
+import utils.EndpointBuilder;
+import org.testng.Assert;
 
 import static io.restassured.RestAssured.*;
 
 import java.util.List;
+import java.util.Objects;
 
 public class AuthorService {
     private static final Logger LOG = Logger.getLogger(AuthorService.class);
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private int defaultAuthorId;
 
-    static {
-        RestAssured.baseURI = ServiceConfig.HOST;
+    public List<Author> getAuthors(ListOptions options) {
+        EndpointBuilder endpoint = new EndpointBuilder().pathParameter("authors");
+        if (options.orderType != null) endpoint.queryParam("orderType", options.orderType.getType());
+        endpoint
+                .queryParam("page", options.page)
+                .queryParam("pagination", options.pagination)
+                .queryParam("size", options.size);
+        if (options.sortBy != null) endpoint.queryParam("sortBy", options.sortBy);
+        return new BaseResponse<>(HttpClient.get(endpoint.get()), Author.class).getList();
     }
 
-    public List<Author> getAllAuthors() {
-        return get(EndPoints.GET_ALL_AUTHORS.getPath()).jsonPath().getList("$", Author.class);
-    }
-
-    public Author getAuthor(int authorId) {
-        return get(String.format(EndPoints.GET_OR_DELETE_AUTHOR_BY_ID_FORMAT.getPath(), authorId))
-                .jsonPath()
-                .getObject("$", Author.class);
+    public BaseResponse<Author> getAuthor(int authorId) {
+        String endPoint = new EndpointBuilder().pathParameter("author").pathParameter(authorId).get();
+        return new BaseResponse<>(HttpClient.get(endPoint), Author.class);
     }
 
     public int getMaxUsedId(List<Author> list) {
@@ -43,11 +46,55 @@ public class AuthorService {
         return biggestId;
     }
 
-    public AuthorService postDefaultAuthor() {
-        defaultAuthorId = getUnselectedAuthorId(getAllAuthors());
-        Author author = Author.getDefaultAuthor(defaultAuthorId);
+    public Author createDefaultAuthor() {
+        int defaultAuthorId = getUnselectedAuthorId(getAuthors(new ListOptions().setPagination(false)));
+        return Author.getDefaultAuthor(defaultAuthorId);
+    }
+
+    //response + validation
+    public BaseResponse<Author> postAuthor(Author author) {
         String authorJson = gson.toJson(author, Author.class);
-        HttpClient.post(EndPoints.POST_OR_PUT_NEW_AUTHOR.getPath(), authorJson);
+        String endPoint = new EndpointBuilder().pathParameter("author").get();
+        return new BaseResponse<>(HttpClient.post(endPoint, authorJson), Author.class);
+    }
+
+    public boolean isPostStatusCodeValid(BaseResponse<Author> response) {
+        if(response == null) {
+            LOG.info("Response is empty");
+            return false;
+        }
+        int statusCode = response.getStatusCode();
+        switch (statusCode) {
+            case(201):
+                LOG.info("Returned status: 201 Author posted successfully");
+                return true;
+            case(409):
+                LOG.info("Returned status: 409 Author with such id already exists");
+                return false;
+            default:
+                LOG.info("Something wrong...");
+                return false;
+        }
+    }
+
+    public boolean areAuthorsTheSame(Author author, BaseResponse<Author> response) {
+        if(author == null || response == null) {
+            LOG.info("Incorrect input");
+            return false;
+        }
+        boolean areSame = false;
+        if(isPostStatusCodeValid(response)) {
+            if(Objects.equals(author.getAuthorName().get("first"), response.getBody().getAuthorName().get("first"))) {
+                areSame = true;
+            }
+        }
+        LOG.info(String.format("Are first names the same: %s", areSame));
+        return areSame;
+    }
+
+    public AuthorService verifyAuthorPostedSuccessfully(Author author, BaseResponse<Author> response) {
+        Assert.assertTrue(areAuthorsTheSame(author, response),
+                "Author is not posted successfully");
         return this;
     }
 
@@ -58,46 +105,66 @@ public class AuthorService {
         return this;
     }
 
-    public AuthorService verifyDefaultAuthorIsPosted() {
-        given()
-                .pathParam("authorId", defaultAuthorId)
-                .get(EndPoints.GET_OR_DELETE_AUTHOR_BY_ID_REST.getPath())
-                .then()
-                .body("authorName.first", equalTo("Andr"));
-        return this;
+    public BaseResponse<Author> deleteAuthor(int authorId) {
+        String endPoint = new EndpointBuilder().pathParameter("author").pathParameter(authorId).get();
+        return new BaseResponse<>(HttpClient.delete(endPoint), Author.class);
     }
 
-    public AuthorService deleteDefaultAuthor() {
-        if(defaultAuthorId != 0) {
-            HttpClient.delete(String.format(EndPoints.GET_OR_DELETE_AUTHOR_BY_ID_FORMAT.getPath(), defaultAuthorId));
+    public boolean isDeleteStatusCodeValid(BaseResponse<Author> response) {
+        if(response == null) {
+            LOG.info("Response is empty");
+            return false;
         }
-        return this;
-    }
-
-    public AuthorService verifyDefaultAuthorIsDeleted() {
-        if(defaultAuthorId != 0) {
-            given()
-                    .pathParam("authorId", defaultAuthorId)
-                    .get(EndPoints.GET_OR_DELETE_AUTHOR_BY_ID_REST.getPath())
-                    .then()
-                    .statusCode(404);
-        } else {
-            LOG.info("Default author has not been created previously");
+        int statusCode = response.getStatusCode();
+        //
+        switch (statusCode) {
+            case(204):
+                LOG.info("Returned status: 204 Author deleted successfully");
+                return true;
+            case(404):
+                LOG.info("Returned status: 404 Author to delete not found");
+                return false;
+            default:
+                LOG.info("Something wrong...");
+                return false;
         }
+    }
+
+    public AuthorService verifyAuthorIsDeleted(BaseResponse<Author> response) {
+        Assert.assertTrue(isDeleteStatusCodeValid(response),
+                "Author is not deleted");
         return this;
     }
 
-    public AuthorService verifyInvalidDefaultAuthorIsNotUpdatable() {
-        Author author = Author.getDefaultAuthor(getUnselectedAuthorId(getAllAuthors()));
-        String authorBody = gson.toJson(author, Author.class);
-        given()
-                .header("Content-type", "application/json;charset=UTF-8 ")
-                .and()
-                .body(authorBody)
-                .when()
-                .put("/api/library/author")
-                .then()
-                .statusCode(404);
+    public BaseResponse<Author> updateAuthor(Author author) {
+        String authorJson = gson.toJson(author, Author.class);
+        String endPoint = new EndpointBuilder().pathParameter("author").get();
+        return new BaseResponse<>(HttpClient.put(endPoint, authorJson), Author.class);
+    }
+
+    public boolean isPutStatusCodeValid(BaseResponse<Author> response) {
+        if(response == null) {
+            LOG.info("Response is empty");
+            return false;
+        }
+        int statusCode = response.getStatusCode();
+        switch (statusCode) {
+            case(200):
+                LOG.info("Returned status: 200 updated Author object");
+                return true;
+            case(404):
+                LOG.info("Returned status: 404 Author to update not found");
+                return false;
+            default:
+                LOG.info("Something wrong...");
+                return false;
+        }
+    }
+
+    public AuthorService verifyInvalidAuthorIsNotUpdated(BaseResponse<Author> response) {
+        Assert.assertFalse(isPutStatusCodeValid(response),
+                "Author is updated");
         return this;
     }
+
 }

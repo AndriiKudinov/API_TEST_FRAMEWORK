@@ -4,39 +4,38 @@ import config.ServiceConfig;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import response.BaseResponse;
 
 import static io.restassured.RestAssured.*;
 
 public class HttpClient {
 
-    public static BaseResponse get(String endpoint) {
+    public static Response get(String endpoint) {
         return HttpClient.sendRequest(Method.GET, endpoint);
     }
 
-    public static BaseResponse post(String endpoint, String body) {
+    public static Response post(String endpoint, String body) {
         return HttpClient.sendRequest(Method.POST, endpoint, body);
     }
 
-    public static BaseResponse put(String endpoint, String body) {
+    public static Response put(String endpoint, String body) {
         return HttpClient.sendRequest(Method.PUT, endpoint, body);
     }
 
-    public static BaseResponse delete(String endpoint) {
+    public static Response delete(String endpoint) {
         return HttpClient.sendRequest(Method.DELETE, endpoint);
     }
 
-    private static BaseResponse sendRequest(Method method, String endpoint) {
+    private static Response sendRequest(Method method, String endpoint) {
         return HttpClient.sendRequest(method, endpoint, null);
     }
 
-    private static BaseResponse sendRequest(Method method, String endpoint, String body) {
+    private static Response sendRequest(Method method, String endpoint, String body) {
         String url = ServiceConfig.HOST + endpoint;
         RequestSpecification spec = given();
         if (body != null) spec
                             .header("Content-type", "application/json;charset=UTF-8 ")
                             .and().body(body);
-        Response rawResponse = spec.request(method, url);
-        return new BaseResponse(rawResponse);
+        Response response = spec.request(method, url);
+        return response;
     }
 }
