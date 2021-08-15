@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="4" passed="4">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Surefire suite" duration-ms="4919" started-at="2021-08-15T22:35:45 EEST" finished-at="2021-08-15T22:35:50 EEST">
+    <groups>
+    </groups>
+    <test name="Surefire test" duration-ms="4919" started-at="2021-08-15T22:35:45 EEST" finished-at="2021-08-15T22:35:50 EEST">
+      <class name="AuthorTest">
+        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:AuthorTest@569bf9eb]" name="beforeMethod" is-config="true" duration-ms="218" started-at="2021-08-15T22:35:45 EEST" finished-at="2021-08-15T22:35:45 EEST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method status="PASS" signature="verifyAuthorWithInvalidIdIsNotUpdatable()[pri:0, instance:AuthorTest@569bf9eb]" name="verifyAuthorWithInvalidIdIsNotUpdatable" duration-ms="3677" started-at="2021-08-15T22:35:45 EEST" description="Verify author with invalid ID is not updatable" finished-at="2021-08-15T22:35:49 EEST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- verifyAuthorWithInvalidIdIsNotUpdatable -->
+        <test-method status="PASS" signature="verifyAuthorsAreGivenWithStatusCode200()[pri:0, instance:AuthorTest@569bf9eb]" name="verifyAuthorsAreGivenWithStatusCode200" duration-ms="202" started-at="2021-08-15T22:35:49 EEST" description="Verify Authors are given with status code 200" finished-at="2021-08-15T22:35:49 EEST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- verifyAuthorsAreGivenWithStatusCode200 -->
+        <test-method status="PASS" signature="verifyDefaultAuthorIsDeleted()[pri:0, instance:AuthorTest@569bf9eb]" name="verifyDefaultAuthorIsDeleted" duration-ms="405" started-at="2021-08-15T22:35:49 EEST" description="Verify default author is deletable" finished-at="2021-08-15T22:35:49 EEST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- verifyDefaultAuthorIsDeleted -->
+        <test-method status="PASS" signature="verifyValidAuthorIsCreated()[pri:0, instance:AuthorTest@569bf9eb]" name="verifyValidAuthorIsCreated" duration-ms="237" started-at="2021-08-15T22:35:49 EEST" description="Verify valid author is creatable" finished-at="2021-08-15T22:35:50 EEST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- verifyValidAuthorIsCreated -->
+      </class> <!-- AuthorTest -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

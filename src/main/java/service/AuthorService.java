@@ -14,7 +14,6 @@ import org.testng.Assert;
 import static io.restassured.RestAssured.*;
 
 import java.util.List;
-import java.util.Objects;
 
 public class AuthorService {
     private static final Logger LOG = Logger.getLogger(AuthorService.class);
@@ -31,9 +30,32 @@ public class AuthorService {
         return new BaseResponse<>(HttpClient.get(endpoint.get()), Author.class).getList();
     }
 
-    public BaseResponse<Author> getAuthor(int authorId) {
+    public BaseResponse<Author> getAuthorResponse(int authorId) {
         String endPoint = new EndpointBuilder().pathParameter("author").pathParameter(authorId).get();
         return new BaseResponse<>(HttpClient.get(endPoint), Author.class);
+    }
+
+    public int getAuthorId() {
+        return getAuthors(new ListOptions().setSize(1)).get(0).getAuthorId();
+    }
+
+    public boolean isAuthorReceivedWithTheSameAuthorsId(int authorId, BaseResponse<Author> response) {
+        if(response == null) {
+            LOG.info("Response is empty");
+            return false;
+        }
+        if(response.getStatusCode()==200 && response.getBody().getAuthorId() == authorId) {
+            LOG.info("Returned status: 200 Special Author object in JSON");
+            return true;
+        } else {
+            LOG.info(String.format("Returned status: %d", response.getStatusCode()));
+            return false;
+        }
+    }
+
+    public void verifyAuthorIsReceivedWithTheSameAuthorsId(int authorId, BaseResponse<Author> response) {
+        Assert.assertTrue(isAuthorReceivedWithTheSameAuthorsId(authorId, response),
+                "Received Author has different authorId.");
     }
 
     public int getMaxUsedId(List<Author> list) {
@@ -51,8 +73,7 @@ public class AuthorService {
         return Author.getDefaultAuthor(defaultAuthorId);
     }
 
-    //response + validation
-    public BaseResponse<Author> postAuthor(Author author) {
+    public BaseResponse<Author> createAuthor(Author author) {
         String authorJson = gson.toJson(author, Author.class);
         String endPoint = new EndpointBuilder().pathParameter("author").get();
         return new BaseResponse<>(HttpClient.post(endPoint, authorJson), Author.class);
@@ -64,16 +85,12 @@ public class AuthorService {
             return false;
         }
         int statusCode = response.getStatusCode();
-        switch (statusCode) {
-            case(201):
-                LOG.info("Returned status: 201 Author posted successfully");
-                return true;
-            case(409):
-                LOG.info("Returned status: 409 Author with such id already exists");
-                return false;
-            default:
-                LOG.info("Something wrong...");
-                return false;
+        if(statusCode == 201) {
+            LOG.info("Returned status: 201 Author created successfully");
+            return true;
+        } else {
+            LOG.info(String.format("Returned status code: %d Something wrong...", statusCode));
+            return false;
         }
     }
 
@@ -84,7 +101,7 @@ public class AuthorService {
         }
         boolean areSame = false;
         if(isPostStatusCodeValid(response)) {
-            if(Objects.equals(author.getAuthorName().get("first"), response.getBody().getAuthorName().get("first"))) {
+            if(author.equals(response.getBody())) {
                 areSame = true;
             }
         }
@@ -92,7 +109,7 @@ public class AuthorService {
         return areSame;
     }
 
-    public AuthorService verifyAuthorPostedSuccessfully(Author author, BaseResponse<Author> response) {
+    public AuthorService verifyAuthorCreatedSuccessfully(Author author, BaseResponse<Author> response) {
         Assert.assertTrue(areAuthorsTheSame(author, response),
                 "Author is not posted successfully");
         return this;
@@ -116,17 +133,12 @@ public class AuthorService {
             return false;
         }
         int statusCode = response.getStatusCode();
-        //
-        switch (statusCode) {
-            case(204):
-                LOG.info("Returned status: 204 Author deleted successfully");
-                return true;
-            case(404):
-                LOG.info("Returned status: 404 Author to delete not found");
-                return false;
-            default:
-                LOG.info("Something wrong...");
-                return false;
+        if(statusCode == 204) {
+            LOG.info("Returned status: 204 Author deleted successfully");
+            return true;
+        } else {
+            LOG.info(String.format("Returned status code: %d Something wrong...", statusCode));
+            return false;
         }
     }
 
@@ -148,16 +160,12 @@ public class AuthorService {
             return false;
         }
         int statusCode = response.getStatusCode();
-        switch (statusCode) {
-            case(200):
-                LOG.info("Returned status: 200 updated Author object");
-                return true;
-            case(404):
-                LOG.info("Returned status: 404 Author to update not found");
-                return false;
-            default:
-                LOG.info("Something wrong...");
-                return false;
+        if(statusCode == 200) {
+            LOG.info("Returned status: 200 updated Author object");
+            return true;
+        } else {
+            LOG.info(String.format("Returned status code: %d Something wrong...", statusCode));
+            return false;
         }
     }
 

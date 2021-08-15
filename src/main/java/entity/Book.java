@@ -1,7 +1,6 @@
 package entity;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Objects;
 
 public class Book {
 
@@ -12,6 +11,8 @@ public class Book {
     private Additional additional;
     private int publicationYear;
 
+    public Book() {}
+
     public Book(int bookId, String bookName, String bookLanguage, String bookDescription,
                 int pageCount, float height, float width, float length, int publicationYear) {
         this.bookId = bookId;
@@ -20,47 +21,6 @@ public class Book {
         this.bookDescription = bookDescription;
         additional = new Additional(pageCount, height, width, length);
         this.publicationYear = publicationYear;
-    }
-
-    public class Additional {
-        private int pageCount;
-        private Map<String, Float> size;
-
-        public float getHeight() {
-           return size.get("height");
-        }
-
-        public Additional(int pageCount, float height, float width, float length) {
-            this.pageCount = pageCount;
-            size = new HashMap<>();
-            size.put("width", width);
-            size.put("height", height);
-            size.put("length", length);
-        }
-
-        public float getWidth() {
-            return size.get("width");
-        }
-
-        public float getLength() {
-            return size.get("length");
-        }
-
-        public int getPageCount() {
-            return pageCount;
-        }
-
-        public void setPageCount(int pageCount) {
-            this.pageCount = pageCount;
-        }
-
-        public Map<String, Float> getSize() {
-            return size;
-        }
-
-        public void setSize(Map<String, Float> size) {
-            this.size = size;
-        }
     }
 
     public int getBookId() {
@@ -110,4 +70,112 @@ public class Book {
     public void setPublicationYear(int publicationYear) {
         this.publicationYear = publicationYear;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return bookId == book.bookId && publicationYear == book.publicationYear
+                && Objects.equals(bookName, book.bookName) && Objects.equals(bookLanguage, book.bookLanguage)
+                && Objects.equals(bookDescription, book.bookDescription) && additional.equals(book.additional);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bookId, bookName, bookLanguage, bookDescription, additional, publicationYear);
+    }
+
+    public class Additional {
+        private int pageCount;
+        private Size size;
+
+        public Additional() {}
+
+        public Additional(int pageCount, float height, float width, float length) {
+            this.pageCount = pageCount;
+            size = new Size(width, height, length);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Additional that = (Additional) o;
+            return pageCount == that.pageCount && size.equals(that.size);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(pageCount, size);
+        }
+
+        public int getPageCount() {
+            return pageCount;
+        }
+
+        public void setPageCount(int pageCount) {
+            this.pageCount = pageCount;
+        }
+
+        public Size getSize() {
+            return size;
+        }
+
+        public void setSize(Size size) {
+            this.size = size;
+        }
+
+        public class Size {
+            public float width;
+            public float height;
+            public float length;
+
+            public Size() {}
+
+            public Size(float width, float height, float length) {
+                this.width = width;
+                this.height = height;
+                this.length = length;
+            }
+            public float getWidth() {
+                return width;
+            }
+
+            public void setWidth(float width) {
+                this.width = width;
+            }
+
+            public float getHeight() {
+                return height;
+            }
+
+            public void setHeight(float height) {
+                this.height = height;
+            }
+
+            public float getLength() {
+                return length;
+            }
+
+            public void setLength(float length) {
+                this.length = length;
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                Size size = (Size) o;
+                return Float.compare(size.width, width) == 0 && Float.compare(size.height, height) == 0 && Float.compare(size.length, length) == 0;
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(width, height, length);
+            }
+        }
+
+    }
+
 }

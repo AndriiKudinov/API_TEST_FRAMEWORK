@@ -1,0 +1,17 @@
+consts\OrderTypes.class
+entity\Genre.class
+consts\EndPoints.class
+entity\Author.class
+entity\Author$Birth.class
+service\AuthorService.class
+utils\PropertiesReader.class
+client\HttpClient.class
+config\ServiceConfig.class
+service\GenreService.class
+response\BaseResponse.class
+entity\ListOptions.class
+entity\Book$Additional.class
+entity\Book.class
+entity\Book$Additional$Size.class
+entity\Author$AuthorName.class
+utils\EndpointBuilder.class
