@@ -2,6 +2,7 @@ G:\API Testing\REST-test-framework-template\src\main\java\entity\Book.java
 G:\API Testing\REST-test-framework-template\src\main\java\consts\OrderTypes.java
 G:\API Testing\REST-test-framework-template\src\main\java\consts\EndPoints.java
 G:\API Testing\REST-test-framework-template\src\main\java\response\BaseResponse.java
+G:\API Testing\REST-test-framework-template\src\main\java\service\BookService.java
 G:\API Testing\REST-test-framework-template\src\main\java\service\AuthorService.java
 G:\API Testing\REST-test-framework-template\src\main\java\config\ServiceConfig.java
 G:\API Testing\REST-test-framework-template\src\main\java\entity\Author.java

@@ -3,6 +3,7 @@ entity\Genre.class
 consts\EndPoints.class
 entity\Author.class
 entity\Author$Birth.class
+service\BookService.class
 service\AuthorService.class
 utils\PropertiesReader.class
 client\HttpClient.class

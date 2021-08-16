@@ -28,5 +28,9 @@ public class BaseResponse<T> {
     public List<T> getList() {
        return this.response.jsonPath().getList("$", this.responseClass);
     }
+
+    public String saveResponse() {
+        return response.statusCode() + "\r\n" + response.getBody().asString();
+    }
 }
 

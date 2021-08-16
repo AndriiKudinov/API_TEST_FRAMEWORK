@@ -15,6 +15,10 @@ public class Genre {
         this.genreDescription = genreDescription;
     }
 
+    public static Genre getDefaultGenre(int genreId) {
+        return new Genre(genreId, "TestGenreName", "TestGenreDescription");
+    }
+
     public int getGenreId() {
         return genreId;
     }

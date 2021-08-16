@@ -23,6 +23,11 @@ public class Book {
         this.publicationYear = publicationYear;
     }
 
+    public static Book getDefaultBook(int bookId) {
+        return new Book(bookId, "TestBookName", "Russian", "TestBookDescription"
+                , 15, 1, 2, 3, 2020);
+    }
+
     public int getBookId() {
         return bookId;
     }
@@ -127,9 +132,9 @@ public class Book {
         }
 
         public class Size {
-            public float width;
-            public float height;
-            public float length;
+            private double height;
+            private double width;
+            private double length;
 
             public Size() {}
 
@@ -138,7 +143,7 @@ public class Book {
                 this.height = height;
                 this.length = length;
             }
-            public float getWidth() {
+            public double getWidth() {
                 return width;
             }
 
@@ -146,7 +151,7 @@ public class Book {
                 this.width = width;
             }
 
-            public float getHeight() {
+            public double getHeight() {
                 return height;
             }
 
@@ -154,7 +159,7 @@ public class Book {
                 this.height = height;
             }
 
-            public float getLength() {
+            public double getLength() {
                 return length;
             }
 
@@ -167,7 +172,7 @@ public class Book {
                 if (this == o) return true;
                 if (o == null || getClass() != o.getClass()) return false;
                 Size size = (Size) o;
-                return Float.compare(size.width, width) == 0 && Float.compare(size.height, height) == 0 && Float.compare(size.length, length) == 0;
+                return Double.compare(size.width, width) == 0 && Double.compare(size.height, height) == 0 && Double.compare(size.length, length) == 0;
             }
 
             @Override
