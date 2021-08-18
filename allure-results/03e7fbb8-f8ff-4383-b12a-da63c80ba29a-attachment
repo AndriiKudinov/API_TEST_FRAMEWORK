@@ -1,0 +1,9 @@
+Content-Type=application/json;charset=UTF-8
+Transfer-Encoding=chunked
+Date=Wed, 18 Aug 2021 15:28:02 GMT
+{
+    "timeStamp": "18:28:02.913 18-08-2021",
+    "statusCode": 404,
+    "error": "Not Found",
+    "errorMessage": "Genre with 'genreId' = '8906' doesn't exist!"
+}

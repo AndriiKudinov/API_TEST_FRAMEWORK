@@ -1,59 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" ignored="0" total="9" passed="9">
+<testng-results skipped="0" failed="0" ignored="0" total="13" passed="13">
   <reporter-output>
   </reporter-output>
-  <suite name="Surefire suite" duration-ms="5354" started-at="2021-08-16T17:48:39 EEST" finished-at="2021-08-16T17:48:44 EEST">
+  <suite name="Surefire suite" duration-ms="4826" started-at="2021-08-18T18:52:46 EEST" finished-at="2021-08-18T18:52:51 EEST">
     <groups>
     </groups>
-    <test name="Surefire test" duration-ms="5354" started-at="2021-08-16T17:48:39 EEST" finished-at="2021-08-16T17:48:44 EEST">
+    <test name="Surefire test" duration-ms="4826" started-at="2021-08-18T18:52:46 EEST" finished-at="2021-08-18T18:52:51 EEST">
       <class name="AuthorTest">
-        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:AuthorTest@a1217f9]" name="beforeMethod" is-config="true" duration-ms="187" started-at="2021-08-16T17:48:39 EEST" finished-at="2021-08-16T17:48:39 EEST">
+        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:AuthorTest@59fc684e]" name="beforeMethod" is-config="true" duration-ms="238" started-at="2021-08-18T18:52:46 EEST" finished-at="2021-08-18T18:52:46 EEST">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- beforeMethod -->
-        <test-method status="PASS" signature="verifyAuthorWithInvalidIdIsNotUpdatable()[pri:0, instance:AuthorTest@a1217f9]" name="verifyAuthorWithInvalidIdIsNotUpdatable" duration-ms="3532" started-at="2021-08-16T17:48:39 EEST" description="Verify author with invalid ID is not updatable" finished-at="2021-08-16T17:48:43 EEST">
+        <test-method status="PASS" signature="verifyAuthorWithInvalidIdIsNotUpdatable()[pri:0, instance:AuthorTest@59fc684e]" name="verifyAuthorWithInvalidIdIsNotUpdatable" duration-ms="3396" started-at="2021-08-18T18:52:46 EEST" description="Verify author with invalid ID is not updatable" finished-at="2021-08-18T18:52:50 EEST">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- verifyAuthorWithInvalidIdIsNotUpdatable -->
-        <test-method status="PASS" signature="verifyAuthorsAreGivenWithStatusCode200()[pri:0, instance:AuthorTest@a1217f9]" name="verifyAuthorsAreGivenWithStatusCode200" duration-ms="512" started-at="2021-08-16T17:48:43 EEST" description="Verify getting Author by Id gives you right Author" finished-at="2021-08-16T17:48:43 EEST">
+        <test-method status="PASS" signature="verifyAuthorsAreGivenWithStatusCode200()[pri:0, instance:AuthorTest@59fc684e]" name="verifyAuthorsAreGivenWithStatusCode200" duration-ms="123" started-at="2021-08-18T18:52:50 EEST" description="Verify getting Author by Id gives you right Author" finished-at="2021-08-18T18:52:50 EEST">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- verifyAuthorsAreGivenWithStatusCode200 -->
-        <test-method status="PASS" signature="verifyDefaultAuthorIsDeleted()[pri:0, instance:AuthorTest@a1217f9]" name="verifyDefaultAuthorIsDeleted" duration-ms="303" started-at="2021-08-16T17:48:43 EEST" description="Verify default author is deletable" finished-at="2021-08-16T17:48:44 EEST">
+        <test-method status="PASS" signature="verifyDefaultAuthorIsDeleted()[pri:0, instance:AuthorTest@59fc684e]" name="verifyDefaultAuthorIsDeleted" duration-ms="93" started-at="2021-08-18T18:52:50 EEST" description="Verify default author is deletable" finished-at="2021-08-18T18:52:50 EEST">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- verifyDefaultAuthorIsDeleted -->
-        <test-method status="PASS" signature="verifyValidAuthorIsCreated()[pri:0, instance:AuthorTest@a1217f9]" name="verifyValidAuthorIsCreated" duration-ms="131" started-at="2021-08-16T17:48:44 EEST" description="Verify valid author is creatable" finished-at="2021-08-16T17:48:44 EEST">
+        <test-method status="PASS" signature="verifyValidAuthorIsCreated()[pri:0, instance:AuthorTest@59fc684e]" name="verifyValidAuthorIsCreated" duration-ms="73" started-at="2021-08-18T18:52:50 EEST" description="Verify valid author is creatable" finished-at="2021-08-18T18:52:50 EEST">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- verifyValidAuthorIsCreated -->
       </class> <!-- AuthorTest -->
       <class name="GenreTest">
-        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:GenreTest@2b52c0d6]" name="beforeMethod" is-config="true" duration-ms="19" started-at="2021-08-16T17:48:44 EEST" finished-at="2021-08-16T17:48:44 EEST">
+        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:GenreTest@24f360b2]" name="beforeMethod" is-config="true" duration-ms="0" started-at="2021-08-18T18:52:50 EEST" finished-at="2021-08-18T18:52:50 EEST">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- beforeMethod -->
-        <test-method status="PASS" signature="verifyGenreIsDeleted()[pri:0, instance:GenreTest@2b52c0d6]" name="verifyGenreIsDeleted" duration-ms="129" started-at="2021-08-16T17:48:44 EEST" description="Verify genre is deletable" finished-at="2021-08-16T17:48:44 EEST">
+        <test-method status="PASS" signature="verifyGenreIsDeleted()[pri:0, instance:GenreTest@24f360b2]" name="verifyGenreIsDeleted" duration-ms="70" started-at="2021-08-18T18:52:50 EEST" description="Verify genre is deletable" finished-at="2021-08-18T18:52:50 EEST">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- verifyGenreIsDeleted -->
-        <test-method status="PASS" signature="verifyGenreIsSearchableByGenreName()[pri:0, instance:GenreTest@2b52c0d6]" name="verifyGenreIsSearchableByGenreName" duration-ms="109" started-at="2021-08-16T17:48:44 EEST" description="Verify searching genre by genre name returns genres with proper genre name" finished-at="2021-08-16T17:48:44 EEST">
+        <test-method status="PASS" signature="verifyGenreIsSearchableByGenreName()[pri:0, instance:GenreTest@24f360b2]" name="verifyGenreIsSearchableByGenreName" duration-ms="64" started-at="2021-08-18T18:52:50 EEST" description="Verify searching genre by genre name returns genres with proper genre name" finished-at="2021-08-18T18:52:51 EEST">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- verifyGenreIsSearchableByGenreName -->
-        <test-method status="PASS" signature="verifyGenreReceivedWithTheSameId()[pri:0, instance:GenreTest@2b52c0d6]" name="verifyGenreReceivedWithTheSameId" duration-ms="73" started-at="2021-08-16T17:48:44 EEST" description="Verify response Genre has valid id" finished-at="2021-08-16T17:48:44 EEST">
+        <test-method status="PASS" signature="verifyGenreReceivedWithTheSameId()[pri:0, instance:GenreTest@24f360b2]" name="verifyGenreReceivedWithTheSameId" duration-ms="78" started-at="2021-08-18T18:52:51 EEST" description="Verify response Genre has valid id" finished-at="2021-08-18T18:52:51 EEST">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- verifyGenreReceivedWithTheSameId -->
-        <test-method status="PASS" signature="verifyGenreWithInvalidIdIsNotUpdatable()[pri:0, instance:GenreTest@2b52c0d6]" name="verifyGenreWithInvalidIdIsNotUpdatable" duration-ms="38" started-at="2021-08-16T17:48:44 EEST" description="Verify genre with invalid ID is not updatable" finished-at="2021-08-16T17:48:44 EEST">
+        <test-method status="PASS" signature="verifyGenreWithInvalidIdIsNotUpdatable()[pri:0, instance:GenreTest@24f360b2]" name="verifyGenreWithInvalidIdIsNotUpdatable" duration-ms="42" started-at="2021-08-18T18:52:51 EEST" description="Verify genre with invalid ID is not updatable" finished-at="2021-08-18T18:52:51 EEST">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- verifyGenreWithInvalidIdIsNotUpdatable -->
-        <test-method status="PASS" signature="verifyValidGenreIsCreated()[pri:0, instance:GenreTest@2b52c0d6]" name="verifyValidGenreIsCreated" duration-ms="66" started-at="2021-08-16T17:48:44 EEST" description="Verify valid genre is creatable" finished-at="2021-08-16T17:48:44 EEST">
+        <test-method status="PASS" signature="verifyValidGenreIsCreated()[pri:0, instance:GenreTest@24f360b2]" name="verifyValidGenreIsCreated" duration-ms="50" started-at="2021-08-18T18:52:51 EEST" description="Verify valid genre is creatable" finished-at="2021-08-18T18:52:51 EEST">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- verifyValidGenreIsCreated -->
       </class> <!-- GenreTest -->
+      <class name="BookTest">
+        <test-method status="PASS" signature="beforeMethod()[pri:0, instance:BookTest@2a2da905]" name="beforeMethod" is-config="true" duration-ms="42" started-at="2021-08-18T18:52:50 EEST" finished-at="2021-08-18T18:52:50 EEST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeMethod -->
+        <test-method status="PASS" signature="verifyBookIsDeleted()[pri:0, instance:BookTest@2a2da905]" name="verifyBookIsDeleted" duration-ms="99" started-at="2021-08-18T18:52:50 EEST" description="Verify book is deletable" finished-at="2021-08-18T18:52:50 EEST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- verifyBookIsDeleted -->
+        <test-method status="PASS" signature="verifyBookReceivedWithTheSameId()[pri:0, instance:BookTest@2a2da905]" name="verifyBookReceivedWithTheSameId" duration-ms="152" started-at="2021-08-18T18:52:50 EEST" description="Verify response Book has valid id" finished-at="2021-08-18T18:52:50 EEST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- verifyBookReceivedWithTheSameId -->
+        <test-method status="PASS" signature="verifyBookWithInvalidIdIsNotUpdatable()[pri:0, instance:BookTest@2a2da905]" name="verifyBookWithInvalidIdIsNotUpdatable" duration-ms="31" started-at="2021-08-18T18:52:50 EEST" description="Verify book with invalid ID is not updatable" finished-at="2021-08-18T18:52:50 EEST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- verifyBookWithInvalidIdIsNotUpdatable -->
+        <test-method status="PASS" signature="verifyValidBookIsCreated()[pri:0, instance:BookTest@2a2da905]" name="verifyValidBookIsCreated" duration-ms="80" started-at="2021-08-18T18:52:50 EEST" description="Verify valid book is creatable" finished-at="2021-08-18T18:52:50 EEST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- verifyValidBookIsCreated -->
+      </class> <!-- BookTest -->
     </test> <!-- Surefire test -->
   </suite> <!-- Surefire suite -->
 </testng-results>

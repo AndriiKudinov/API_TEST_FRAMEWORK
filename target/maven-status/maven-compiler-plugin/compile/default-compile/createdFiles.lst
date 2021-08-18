@@ -1,6 +1,5 @@
 consts\OrderTypes.class
 entity\Genre.class
-consts\EndPoints.class
 entity\Author.class
 entity\Author$Birth.class
 service\BookService.class

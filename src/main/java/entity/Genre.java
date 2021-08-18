@@ -1,5 +1,7 @@
 package entity;
 
+import com.google.gson.GsonBuilder;
+
 import java.util.Objects;
 
 public class Genre {
@@ -13,6 +15,11 @@ public class Genre {
         this.genreId = genreId;
         this.genreName = genreName;
         this.genreDescription = genreDescription;
+    }
+
+    @Override
+    public String toString() {
+        return new GsonBuilder().setPrettyPrinting().create().toJson(this, Genre.class);
     }
 
     public static Genre getDefaultGenre(int genreId) {

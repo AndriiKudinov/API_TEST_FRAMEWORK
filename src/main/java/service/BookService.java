@@ -3,6 +3,7 @@ package service;
 import client.HttpClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import consts.OrderTypes;
 import entity.Author;
 import entity.Book;
 import entity.Genre;
@@ -24,8 +25,8 @@ public class BookService {
         return new BaseResponse<>(HttpClient.get(endpoint), Book.class);
     }
 
-    @Step("Get List of Books")
-    public List<Book> getBooks(ListOptions options) {
+    @Step("Get Books")
+    public BaseResponse<Book> getBooks(ListOptions options) {
         EndpointBuilder endpoint = new EndpointBuilder().pathParameter("books");
         if (options.orderType != null) endpoint.queryParam("orderType", options.orderType.getType());
         endpoint
@@ -33,41 +34,37 @@ public class BookService {
                 .queryParam("pagination", options.pagination)
                 .queryParam("size", options.size);
         if (options.sortBy != null) endpoint.queryParam("sortBy", options.sortBy);
-        return new BaseResponse<>(HttpClient.get(endpoint.get()), Book.class).getList();
+        return new BaseResponse<>(HttpClient.get(endpoint.get()), Book.class);
     }
 
-    @Step("Create Book")
-    public BaseResponse<Book> createBook(Book book, Author author, Genre genre) {
+    @Step("Create Book {book.bookId}")
+    public BaseResponse<Book> createBook(Book book, int authorId, int genreId) {
         String bookJson = gson.toJson(book, Book.class);
-        System.out.println(bookJson);
-        String endPoint = new EndpointBuilder().pathParameter("book").pathParameter(author.getAuthorId())
-                .pathParameter(genre.getGenreId()).get();
+        String endPoint = new EndpointBuilder().pathParameter("book").pathParameter(authorId)
+                .pathParameter(genreId).get();
         return new BaseResponse<>(HttpClient.post(endPoint, bookJson), Book.class);
     }
 
     @Step("Get value of the biggest bookId")
-    public int getMaxUsedId(List<Book> list) {
-        return list.stream().mapToInt(Book::getBookId).max().orElse(0);
+    public int getMaxUsedId() {
+        Book book = getBooks(new ListOptions().setSize(1).setOrderType(OrderTypes.DESC)).getList().get(0);
+        if(book!=null) {
+            return book.getBookId();
+        }
+        return 1;
     }
 
     @Step("Get unselected bookId from List")
-    public int getUnselectedBookId(List<Book> list) {
-        int biggestId = getMaxUsedId(list);
+    public int getUnselectedBookId() {
+        int biggestId = getMaxUsedId();
         biggestId++;
         return biggestId;
     }
 
     @Step("Create default test Book object")
     public Book createDefaultBook() {
-        int defaultBookId = getUnselectedBookId(getBooks(new ListOptions().setPagination(false)));
-        LOG.info(defaultBookId);
+        int defaultBookId = getUnselectedBookId();
         return Book.getDefaultBook(defaultBookId);
-    }
-
-    @Step("Verify book is created with status code 201")
-    public void verifyBookCreatedWithStatusCode201(BaseResponse<Book> response) {
-        Assert.assertEquals(response.getStatusCode(), 201,
-                String.format("Expected status code 201, Got - %d", response.getStatusCode()));
     }
 
     @Step("Verify created book and response book are the same")
@@ -76,10 +73,10 @@ public class BookService {
                 "Books are not the same");
     }
 
-    @Step("Verify book is received with status code 200")
-    public void verifyGotBookWithStatusCode200(BaseResponse<Book> response) {
-        Assert.assertEquals(response.getStatusCode(), 200,
-                String.format("Expected status code 200, Got - %d", response.getStatusCode()));
+    @Step("Verify Status Code {statusCode}")
+    public void verifyStatusCode(BaseResponse<Book> response, int statusCode) {
+        Assert.assertEquals(response.getStatusCode(), statusCode,
+                String.format("Expected status code: %d; Actual: %d; Message:%s", statusCode, response.getStatusCode(), response.getHeader("errorMessage")));
     }
 
     @Step("Verify created book and book from response have the same Id")
@@ -94,13 +91,7 @@ public class BookService {
         return new BaseResponse<>(HttpClient.delete(endPoint), Book.class);
     }
 
-    @Step("Verify book is deleted with status code 204")
-    public void verifyBookIsDeletedWithStatusCode204(BaseResponse<Book> response) {
-        Assert.assertEquals(response.getStatusCode(), 204,
-                String.format("Expected status code 204, Got - %d", response.getStatusCode()));
-    }
-
-    @Step("Update book")
+    @Step("Update book {book.bookId}")
     public BaseResponse<Book> updateBook(Book book) {
         String bookJson = gson.toJson(book, Book.class);
         String endPoint = new EndpointBuilder().pathParameter("book").get();

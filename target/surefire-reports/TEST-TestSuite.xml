@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="TestSuite" time="6.582" tests="9" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="TestSuite" time="6.502" tests="13" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_221\jre\bin"/>
@@ -64,13 +64,17 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase name="verifyAuthorWithInvalidIdIsNotUpdatable" classname="AuthorTest" time="3.648"/>
-  <testcase name="verifyAuthorsAreGivenWithStatusCode200" classname="AuthorTest" time="0.631"/>
-  <testcase name="verifyDefaultAuthorIsDeleted" classname="AuthorTest" time="0.298"/>
-  <testcase name="verifyValidAuthorIsCreated" classname="AuthorTest" time="0.542"/>
-  <testcase name="verifyGenreIsDeleted" classname="GenreTest" time="0"/>
-  <testcase name="verifyGenreIsSearchableByGenreName" classname="GenreTest" time="0"/>
-  <testcase name="verifyGenreReceivedWithTheSameId" classname="GenreTest" time="0"/>
-  <testcase name="verifyGenreWithInvalidIdIsNotUpdatable" classname="GenreTest" time="0"/>
-  <testcase name="verifyValidGenreIsCreated" classname="GenreTest" time="0"/>
+  <testcase name="verifyAuthorWithInvalidIdIsNotUpdatable" classname="AuthorTest" time="3.398"/>
+  <testcase name="verifyAuthorsAreGivenWithStatusCode200" classname="AuthorTest" time="0.123"/>
+  <testcase name="verifyDefaultAuthorIsDeleted" classname="AuthorTest" time="0.097"/>
+  <testcase name="verifyValidAuthorIsCreated" classname="AuthorTest" time="0.072"/>
+  <testcase name="verifyBookIsDeleted" classname="BookTest" time="0.106"/>
+  <testcase name="verifyBookReceivedWithTheSameId" classname="BookTest" time="0.148"/>
+  <testcase name="verifyBookWithInvalidIdIsNotUpdatable" classname="BookTest" time="0.031"/>
+  <testcase name="verifyValidBookIsCreated" classname="BookTest" time="0.082"/>
+  <testcase name="verifyGenreIsDeleted" classname="GenreTest" time="0.08"/>
+  <testcase name="verifyGenreIsSearchableByGenreName" classname="GenreTest" time="0.064"/>
+  <testcase name="verifyGenreReceivedWithTheSameId" classname="GenreTest" time="0.085"/>
+  <testcase name="verifyGenreWithInvalidIdIsNotUpdatable" classname="GenreTest" time="0.03"/>
+  <testcase name="verifyValidGenreIsCreated" classname="GenreTest" time="0.054"/>
 </testsuite>

@@ -1,0 +1,8 @@
+Content-Type=application/json;charset=UTF-8
+Transfer-Encoding=chunked
+Date=Wed, 18 Aug 2021 15:28:02 GMT
+{
+    "genreId": 8906,
+    "genreName": "TestGenreName",
+    "genreDescription": "TestGenreDescription"
+}

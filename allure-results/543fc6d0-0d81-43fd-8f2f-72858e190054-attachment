@@ -1,0 +1,9 @@
+Content-Type=application/json;charset=UTF-8
+Transfer-Encoding=chunked
+Date=Wed, 18 Aug 2021 16:12:50 GMT
+{
+    "timeStamp": "19:12:51.109 18-08-2021",
+    "statusCode": 409,
+    "error": "Conflict",
+    "errorMessage": "Genre with such 'genreName' already exists!"
+}

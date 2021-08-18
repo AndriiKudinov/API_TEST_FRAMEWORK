@@ -1,5 +1,7 @@
 package entity;
 
+import com.google.gson.GsonBuilder;
+
 import java.util.Objects;
 
 public class Author {
@@ -21,6 +23,11 @@ public class Author {
         public AuthorName(String first, String second) {
             this.first = first;
             this.second = second;
+        }
+
+        @Override
+        public String toString() {
+            return new GsonBuilder().setPrettyPrinting().create().toJson(this, Author.class);
         }
 
         @Override

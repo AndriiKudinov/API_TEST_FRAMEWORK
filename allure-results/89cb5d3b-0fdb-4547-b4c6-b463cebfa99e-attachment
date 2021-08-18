@@ -1,0 +1,17 @@
+Content-Type=application/json;charset=UTF-8
+Transfer-Encoding=chunked
+Date=Wed, 18 Aug 2021 14:32:38 GMT
+{
+    "authorId": 9819,
+    "authorName": {
+        "first": "Andr",
+        "second": "Kud"
+    },
+    "nationality": "Ukr",
+    "birth": {
+        "date": "1968-10-28",
+        "country": "Ukraine",
+        "city": "Kiev"
+    },
+    "authorDescription": "Test Description"
+}

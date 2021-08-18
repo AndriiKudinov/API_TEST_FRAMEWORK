@@ -16,8 +16,9 @@ public class AuthorTest {
     @Test(description = "Verify getting Author by Id gives you right Author")
     public void verifyAuthorsAreGivenWithStatusCode200() {
         int authorId = authorService.getAuthorId();
-        BaseResponse<Author> response = authorService.getAuthorResponse(authorId);
+        BaseResponse<Author> response = authorService.getAuthor(authorId);
         saveResponse(response);
+        authorService.verifyStatusCode(response,200);
         authorService.verifyAuthorIsReceivedWithTheSameAuthorsId(authorId, response);
     }
 
@@ -26,6 +27,7 @@ public class AuthorTest {
         Author author = authorService.createDefaultAuthor();
         BaseResponse<Author> response = authorService.createAuthor(author);
         saveResponse(response);
+        authorService.verifyStatusCode(response, 201);
         authorService.verifyAuthorCreatedSuccessfully(author, response);
         authorService.deleteAuthor(author.getAuthorId());
     }
@@ -49,7 +51,6 @@ public class AuthorTest {
 
     @Attachment
     public String saveResponse(BaseResponse<Author> response) {
-        return response.saveResponse();
-                //response.getStatusCode() + "\r\n" + response;
+        return response.toString();
     }
 }

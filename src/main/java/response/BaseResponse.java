@@ -29,8 +29,13 @@ public class BaseResponse<T> {
        return this.response.jsonPath().getList("$", this.responseClass);
     }
 
-    public String saveResponse() {
-        return response.statusCode() + "\r\n" + response.getBody().asString();
+    @Override
+    public String toString() {
+        String saveString = response.headers().toString();
+        if(response.getBody() != null) {
+            saveString = saveString + "\r\n" + response.asPrettyString();
+        }
+        return saveString;
     }
 }
 

@@ -1,5 +1,7 @@
 package entity;
 
+import com.google.gson.GsonBuilder;
+
 import java.util.Objects;
 
 public class Book {
@@ -23,9 +25,14 @@ public class Book {
         this.publicationYear = publicationYear;
     }
 
+    @Override
+    public String toString() {
+        return new GsonBuilder().setPrettyPrinting().create().toJson(this, Book.class);
+    }
+
     public static Book getDefaultBook(int bookId) {
         return new Book(bookId, "TestBookName", "Russian", "TestBookDescription"
-                , 15, 1, 2, 3, 2020);
+                , 15, 1, 2, 3, 2015);
     }
 
     public int getBookId() {
@@ -143,6 +150,7 @@ public class Book {
                 this.height = height;
                 this.length = length;
             }
+
             public double getWidth() {
                 return width;
             }

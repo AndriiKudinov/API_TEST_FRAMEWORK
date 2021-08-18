@@ -40,4 +40,15 @@ public class ListOptions {
         this.sortBy = sortBy;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "ListOptions{" +
+                "orderType=" + orderType +
+                ", page=" + page +
+                ", pagination=" + pagination +
+                ", size=" + size +
+                ", sortBy='" + sortBy + '\'' +
+                '}';
+    }
 }

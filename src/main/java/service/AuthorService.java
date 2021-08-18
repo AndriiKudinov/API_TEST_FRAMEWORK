@@ -3,6 +3,7 @@ package service;
 import client.HttpClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import consts.OrderTypes;
 import entity.Author;
 import entity.ListOptions;
 import io.qameta.allure.Step;
@@ -18,7 +19,7 @@ public class AuthorService {
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     @Step("Get List of authors")
-    public List<Author> getAuthors(ListOptions options) {
+    public BaseResponse<Author> getAuthors(ListOptions options) {
         EndpointBuilder endpoint = new EndpointBuilder().pathParameter("authors");
         if (options.orderType != null) endpoint.queryParam("orderType", options.orderType.getType());
         endpoint
@@ -26,32 +27,29 @@ public class AuthorService {
                 .queryParam("pagination", options.pagination)
                 .queryParam("size", options.size);
         if (options.sortBy != null) endpoint.queryParam("sortBy", options.sortBy);
-        return new BaseResponse<>(HttpClient.get(endpoint.get()), Author.class).getList();
+        return new BaseResponse<>(HttpClient.get(endpoint.get()), Author.class);
     }
 
-    @Step("Get author response")
-    public BaseResponse<Author> getAuthorResponse(int authorId) {
+    @Step("Get author {authorId}")
+    public BaseResponse<Author> getAuthor(int authorId) {
         String endPoint = new EndpointBuilder().pathParameter("author").pathParameter(authorId).get();
         return new BaseResponse<>(HttpClient.get(endPoint), Author.class);
     }
 
     @Step("Get authorId")
     public int getAuthorId() {
-        return getAuthors(new ListOptions().setSize(1)).get(0).getAuthorId();
+        return getAuthors(new ListOptions().setSize(1)).getList().get(0).getAuthorId();
     }
 
+    @Step("Verify author received with the same authors Id")
     public boolean isAuthorReceivedWithTheSameAuthorsId(int authorId, BaseResponse<Author> response) {
-        if(response == null) {
-            LOG.info("Response is empty");
-            return false;
-        }
-        if(response.getStatusCode()==200 && response.getBody().getAuthorId() == authorId) {
-            LOG.info("Returned status: 200 Special Author object in JSON");
-            return true;
-        } else {
-            LOG.info(String.format("Returned status: %d", response.getStatusCode()));
-            return false;
-        }
+        return response.getBody().getAuthorId() == authorId;
+    }
+
+    @Step("Verify Status Code {statusCode}")
+    public void verifyStatusCode(BaseResponse<Author> response, int statusCode) {
+        Assert.assertEquals(response.getStatusCode(), statusCode,
+                String.format("Expected status code: %d; Actual: %d; Message:%s", statusCode, response.getStatusCode(), response.getHeader("errorMessage")));
     }
 
     @Step("Verify author received with proper author id")
@@ -61,20 +59,20 @@ public class AuthorService {
     }
 
     @Step("Get Maximum value of id from list of authors")
-    public int getMaxUsedId(List<Author> list) {
-        return list.stream().mapToInt(Author::getAuthorId).max().orElse(0);
+    public int getMaxUsedId() {
+        return getAuthors(new ListOptions().setSize(1).setOrderType(OrderTypes.DESC)).getList().get(0).getAuthorId();
     }
 
     @Step("Get unselected Author id")
-    public int getUnselectedAuthorId(List<Author> list) {
-        int biggestId = getMaxUsedId(list);
+    public int getUnselectedAuthorId() {
+        int biggestId = getMaxUsedId();
         biggestId++;
         return biggestId;
     }
 
     @Step("Create default author object")
     public Author createDefaultAuthor() {
-        int defaultAuthorId = getUnselectedAuthorId(getAuthors(new ListOptions().setPagination(false)));
+        int defaultAuthorId = getUnselectedAuthorId();
         return Author.getDefaultAuthor(defaultAuthorId);
     }
 
@@ -85,36 +83,9 @@ public class AuthorService {
         return new BaseResponse<>(HttpClient.post(endPoint, authorJson), Author.class);
     }
 
-    @Step("Verify post status code is valid")
-    public boolean isPostStatusCodeValid(BaseResponse<Author> response) {
-        if(response == null) {
-            LOG.info("Response is empty");
-            return false;
-        }
-        int statusCode = response.getStatusCode();
-        if(statusCode == 201) {
-            LOG.info("Returned status: 201 Author created successfully");
-            return true;
-        } else {
-            LOG.info(String.format("Returned status code: %d Something wrong...", statusCode));
-            return false;
-        }
-    }
-
     @Step("Verify author and author from response are the same")
     public boolean areAuthorsTheSame(Author author, BaseResponse<Author> response) {
-        if(author == null || response == null) {
-            LOG.info("Incorrect input");
-            return false;
-        }
-        boolean areSame = false;
-        if(isPostStatusCodeValid(response)) {
-            if(author.equals(response.getBody())) {
-                areSame = true;
-            }
-        }
-        LOG.info(String.format("Are authors the same: %s", areSame));
-        return areSame;
+        return author.equals(response.getBody());
     }
 
     @Step("Verify Author {author.authorId} is created")
@@ -130,26 +101,10 @@ public class AuthorService {
         return new BaseResponse<>(HttpClient.delete(endPoint), Author.class);
     }
 
-    @Step("Verify delete status code is valid")
-    public boolean isDeleteStatusCodeValid(BaseResponse<Author> response) {
-        if(response == null) {
-            LOG.info("Response is empty");
-            return false;
-        }
-        int statusCode = response.getStatusCode();
-        if(statusCode == 204) {
-            LOG.info("Returned status: 204 Author deleted successfully");
-            return true;
-        } else {
-            LOG.info(String.format("Returned status code: %d Something wrong...", statusCode));
-            return false;
-        }
-    }
 
     @Step("Verify author is deleted")
     public AuthorService verifyAuthorIsDeleted(BaseResponse<Author> response) {
-        Assert.assertTrue(isDeleteStatusCodeValid(response),
-                "Author is not deleted");
+        Assert.assertEquals(response.getStatusCode(), 204, "Author is not deleted");
         return this;
     }
 
@@ -160,26 +115,9 @@ public class AuthorService {
         return new BaseResponse<>(HttpClient.put(endPoint, authorJson), Author.class);
     }
 
-    @Step("Verify Put status code is valid")
-    public boolean isPutStatusCodeValid(BaseResponse<Author> response) {
-        if(response == null) {
-            LOG.info("Response is empty");
-            return false;
-        }
-        int statusCode = response.getStatusCode();
-        if(statusCode == 200) {
-            LOG.info("Returned status: 200 updated Author object");
-            return true;
-        } else {
-            LOG.info(String.format("Returned status code: %d Something wrong...", statusCode));
-            return false;
-        }
-    }
-
     @Step("Verify author with invalid id is not updated")
     public AuthorService verifyInvalidAuthorIsNotUpdated(BaseResponse<Author> response) {
-        Assert.assertFalse(isPutStatusCodeValid(response),
-                "Author is updated");
+        Assert.assertNotEquals(response.getStatusCode(), 200, "Author is updated");
         return this;
     }
 

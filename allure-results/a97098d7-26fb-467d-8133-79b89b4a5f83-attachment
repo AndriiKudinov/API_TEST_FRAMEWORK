@@ -1,0 +1,17 @@
+Content-Type=application/json;charset=UTF-8
+Transfer-Encoding=chunked
+Date=Wed, 18 Aug 2021 15:43:29 GMT
+{
+    "authorId": 265,
+    "authorName": {
+        "first": "Ansel",
+        "second": "Swaniawski"
+    },
+    "nationality": "Chinese",
+    "birth": {
+        "date": "1954-03-23",
+        "country": "Japan",
+        "city": "Jacobiberg"
+    },
+    "authorDescription": "Assumenda molestiae quo fugit et. Temporibus itaque quidem animi voluptas ut rem. Repellendus debitis eligendi explicabo fuga at. Dolores non dolorum laborum omnis tempore accusamus."
+}
